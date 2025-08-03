@@ -1,0 +1,72 @@
+.Spreadsheet {
+  --background-color: white;
+  --text-color: #000000;
+  --outline-color: #ffc800;
+  --outline-background-color: #fbe59748;
+  --header-background-color: #f7f7f7;
+}
+
+.Spreadsheet__active-cell {
+  border: 2px solid var(--outline-color);
+}
+.Spreadsheet__active-cell:after {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  bottom: -4px;
+  right: -4px;
+  background-color: var(--outline-color);
+}
+.Spreadsheet__active-cell--edit {
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.Spreadsheet__cell,
+.Spreadsheet__active-cell {
+  cursor: default;
+}
+
+.Spreadsheet__cell,
+.Spreadsheet__header {
+  min-width: 12.1rem;
+  min-height: 2.4rem;
+  height: 2.4rem;
+  max-height: 2.4rem;
+  border: 1px solid var(--border-color);
+}
+
+.Spreadsheet__table tr:nth-child(2) td {
+  background-color: #e4effe;
+  font-weight: 600;
+}
+
+.Spreadsheet__header {
+  background: var(--header-background-color);
+  color: #6f6f6f;
+  border: 1px solid #e1e1e1;
+}
+
+.Spreadsheet__header--selected {
+  background: #ffc800;
+  color: var(--text-color);
+}
+
+.Spreadsheet__floating-rect--selected {
+  background: var(--outline-background-color);
+  border: 1px var(--outline-color) solid;
+}
+
+.Spreadsheet__floating-rect--dragging {
+  border: 1px var(--outline-color);
+}
+
+.Spreadsheet__floating-rect--copied {
+  border: 2px var(--outline-color) dashed;
+}
+
+.spreadsheet-wrapper {
+  width: 50vw;
+  overflow-x: auto;
+}

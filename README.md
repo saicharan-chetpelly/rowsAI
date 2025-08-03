@@ -1,1 +1,1 @@
-# bootcamp-3-rowsAI
+Rows AI is a data analysis tool that harnesses AI to analyze, summarize, and transform data. It enables users to build better spreadsheets, classify and tag text, execute marketing campaigns, and summarize and transform text. It also offers a question-and-answer feature. Overall, it seems designed to enhance data analysis efficiency and effectiveness.

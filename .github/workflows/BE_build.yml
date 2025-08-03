@@ -1,0 +1,60 @@
+name: SonarCloud Backend
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - ".github/workflows/backendBuild.yml"
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarcloud:
+    if: (startsWith(github.head_ref, 'BE_') && github.event.pull_request.merged == false) || (github.event_name == 'push')
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Create env file
+        run: echo "${{ secrets.ENV_FILE }}" > .env
+
+      - name: Install dependencies
+        run: |
+          pip install tox
+          pip install coverage
+
+      - name: Run tox for tests and coverage
+        run: |
+          tox -e py
+
+      - name: Override Coverage Source Path for Sonar
+        run: sed -i 's/\/home\/runner\/work\/bootcamp-3-rowsAI\/bootcamp-3-rowsAI\//\/github\/workspace\//g' coverage-reports/coverage.xml
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: backend
+          args: >
+            -Dsonar.python.coverage.reportPaths=coverage-reports/coverage.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.BE_SONAR_TOKEN }}
